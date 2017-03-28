@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { AppRoutingModule } from './app.routing';
 import { HomeModule } from './home/home.module';
@@ -20,7 +21,11 @@ import { PersonagemService } from './modules/personagem/personagem.service';
     HttpModule,
     HomeModule
   ],
-  providers: [PersonagemService, HabilidadeService],
+  providers: [
+    {provide: APP_BASE_HREF, useValue: '/'},
+    PersonagemService,
+    HabilidadeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
