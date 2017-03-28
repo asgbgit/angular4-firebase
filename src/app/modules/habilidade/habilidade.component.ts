@@ -53,9 +53,8 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
     if (this.form.get('codigo').value) {
       this.service.patchHabilidade(this.form.value)
         .then(result => {
-          this.addSuccessAlert("Nova habilidade salva.");
+          this.addSuccessAlert("Habilidade alterada.");
           this.ngOnInit();
-          //setTimeout(() => { this.addSuccessAlert("Habilidade alterada.");}, 4000);
         }).catch(error => {
           this.addErrorAlert(error);
         })
@@ -64,8 +63,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
       this.service.postHabilidade(this.form.value)
         .then(result => {
           this.addSuccessAlert("Nova habilidade salva.");
-          this.ngOnInit();
-          //setTimeout(() => { this.addSuccessAlert("Habilidade alterada.");}, 4000);
+          this.ngOnInit();          
         }).catch(error => {
           this.addErrorAlert(error);
         })
