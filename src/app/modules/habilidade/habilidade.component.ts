@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, trigger, transition, style, animate, state } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HabilidadeService } from './habilidade.service'
@@ -10,6 +10,16 @@ import { Habilidade } from './habilidade.model';
 @Component({
   selector: 'app-habilidade',
   templateUrl: './habilidade.component.html',
+   styles: [`
+  .show{
+    opacity: 1 !important;
+  }
+  .alert{
+    opacity: 0;
+    transition: .5s ease-in-out all;
+  } 
+  `],
+
   providers: [HabilidadeService]
 })
 export class HabilidadeComponent extends SuperComponent implements OnInit {
@@ -43,8 +53,9 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
     if (this.form.get('codigo').value) {
       this.service.patchHabilidade(this.form.value)
         .then(result => {
-          this.addSuccessAlert("Habilidade alterada.");
+          this.addSuccessAlert("Nova habilidade salva.");
           this.ngOnInit();
+          //setTimeout(() => { this.addSuccessAlert("Habilidade alterada.");}, 4000);
         }).catch(error => {
           this.addErrorAlert(error);
         })
@@ -54,6 +65,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
         .then(result => {
           this.addSuccessAlert("Nova habilidade salva.");
           this.ngOnInit();
+          //setTimeout(() => { this.addSuccessAlert("Habilidade alterada.");}, 4000);
         }).catch(error => {
           this.addErrorAlert(error);
         })
