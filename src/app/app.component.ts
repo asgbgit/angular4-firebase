@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+
+  logout() {
+    window.localStorage.removeItem('user');
+    window.location.reload();
+  }
+
+  estaLogado() {
+    return window.localStorage.getItem('user');
+  }
 }

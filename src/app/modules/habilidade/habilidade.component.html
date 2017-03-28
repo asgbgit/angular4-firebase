@@ -1,0 +1,57 @@
+
+<div class="card">
+  <div class="card-header">
+    Cadastro de Habilidade
+  </div>
+  <div class="card-block">
+    <div class="container">
+      <form [formGroup]="form" (submit)="salvar();" >
+
+        <div class="alert alert-{{alert?.tipoAlert}}" role="alert" *ngIf="alert?.mensagem">
+          <strong>{{alert?.sumario}}</strong> {{alert?.mensagem}}
+        </div>
+
+        <div class="form-group">
+            <input formControlName="nome" name="nome" class="form-control" type="text" placeholder="Nome da Habilidade">
+        </div>
+
+        <br/>
+
+        <button type="submit" class="btn btn-success pull-right" [disabled]="!form.valid">
+          <i class="fa fa-save" aria-hidden="true"></i>
+          Salvar
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 20px">
+  <div class="card-header">
+    Listagem de Habilidades
+  </div>
+  <div class="card-block">
+    <table class="table table-striped">
+      <tr>
+        <th>Ações</th>
+        <th>Nome</th>
+      </tr>
+      <tr *ngFor="let habilidade of habilidades">
+        <td style="width: 10%;">
+          <button (click)="editar(habilidade)" class="btn btn-primary">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+
+          <button (click)="deletar(habilidade.codigo)" class="btn btn-danger">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+
+        <td>{{habilidade.nome}}</td>
+
+      </tr>
+    </table>
+  </div>
+</div>

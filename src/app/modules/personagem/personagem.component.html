@@ -1,0 +1,97 @@
+<div class="card">
+  <div class="card-header">
+    Cadastro de Personagem
+  </div>
+  <div class="card-block">
+    <div class="container">
+      <form [formGroup]="form" (submit)="salvar();">
+
+        <div class="alert alert-{{alert?.tipoAlert}}" role="alert" *ngIf="alert?.mensagem">
+          <strong>{{alert?.sumario}}</strong> {{alert?.mensagem}}
+        </div>
+
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input id="nome" formControlName="nome" name="nome" class="form-control" type="text" placeholder="Informe o nome do herói">
+        </div>
+
+        <div class="form-group">
+          <label for="nome">Companhia</label>
+          <input formControlName="companhia" name="companhia" class="form-control" type="text" placeholder="Informe o nome da companhia criadora do herói">
+        </div>
+
+        <fieldset>
+          <legend>Habilidades</legend>
+          <div formArrayName="habilidades">
+            <div *ngFor="let item of form.controls.habilidades.controls; let i = index">
+
+              <div class="input-group" [formGroupName]="i" style="margin-bottom: 5px">
+
+                <select [compareWith]="compare" formControlName="habilidade" name="habilidade">
+                    <option *ngFor="let hab of listaHabilidades" [ngValue]="hab">{{hab.nome}}</option>
+                </select>
+
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger" (click)="deleteHabilidade(i)">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div style="margin-top: 5px">
+          <button type="button" class="btn btn-link" (click)="addHabilidade()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Adicionar outra habilidade
+            </button>
+        </div>
+
+        <br/>
+
+        <button type="submit" class="btn btn-success pull-right" [disabled]="!form.valid">
+          <i class="fa fa-save" aria-hidden="true"></i>
+          Salvar
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 20px">
+  <div class="card-header">
+    Listagem de Personagens
+  </div>
+  <div class="card-block">
+    <table class="table table-striped">
+      <tr>
+        <th>Ações</th>
+        <th>Nome</th>
+        <th>Companhia</th>
+        <th>Habilidades</th>
+      </tr>
+      <tr *ngFor="let personagem of personagens">
+        <td style="width: 10%;">
+          <button (click)="editar(personagem)" class="btn btn-primary">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+
+          <button (click)="deletar(personagem.codigo)" class="btn btn-danger">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+        <td>{{personagem.nome}}</td>
+        <td>{{personagem.companhia}}</td>
+        <td>
+          <p *ngFor="let h of personagem.habilidades">
+            {{h.habilidade.nome}}
+          </p>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+</div>
