@@ -1,6 +1,8 @@
 import { Habilidade } from './habilidade.model';
 import { Injectable } from '@angular/core';
 import { Http, HttpModule, JsonpModule } from '@angular/http';
+import 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class HabilidadeService {

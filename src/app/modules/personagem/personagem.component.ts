@@ -10,8 +10,7 @@ import { Habilidade } from './../habilidade/habilidade.model';
 
 @Component({
   selector: 'app-personagem',
-  templateUrl: './personagem.component.html',
-  providers: []
+  templateUrl: './personagem.component.html'
 })
 export class PersonagemComponent extends SuperComponent implements OnInit {
 

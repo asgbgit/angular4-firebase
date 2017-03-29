@@ -9,8 +9,7 @@ import { Habilidade } from './habilidade.model';
 
 @Component({
   selector: 'app-habilidade',
-  templateUrl: './habilidade.component.html',
-  providers: [HabilidadeService]
+  templateUrl: './habilidade.component.html'
 })
 export class HabilidadeComponent extends SuperComponent implements OnInit {
 
@@ -19,7 +18,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   habilidades: Habilidade[];
 
   constructor(private formBuilder: FormBuilder,
-              private service: HabilidadeService) {
+              private habilidadeService: HabilidadeService) {
       super();
   }
 
@@ -35,22 +34,23 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
     });
   }
 
-  private reload() {
-    this.service.getHabilidades().then(lista => { this.habilidades = lista; });
+  public reload() {
+    this.habilidadeService.getHabilidades().then(lista => { this.habilidades = lista; });
   }
 
   salvar() {
+    console.log('salvar');
     if (this.form.get('codigo').value) {
-      this.service.patchHabilidade(this.form.value)
+      this.habilidadeService.patchHabilidade(this.form.value)
         .then(result => {
           this.addSuccessAlert("Habilidade alterada.");
           this.ngOnInit();
         }).catch(error => {
           this.addErrorAlert(error);
-        })
-    }
-    else {
-      this.service.postHabilidade(this.form.value)
+        });
+    } else {
+      console.log('postHabilidade');
+      this.habilidadeService.postHabilidade(this.form.value)
         .then(result => {
           this.addSuccessAlert("Nova habilidade salva.");
           this.ngOnInit();
@@ -66,7 +66,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   }
 
   deletar(codigoHabilidade: string) {
-    this.service.deleteHabilidade(codigoHabilidade)
+    this.habilidadeService.deleteHabilidade(codigoHabilidade)
       .then(result => {
         this.addSuccessAlert("Habilidade excluída.");
         this.reload();
