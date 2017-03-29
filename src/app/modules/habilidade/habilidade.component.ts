@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, trigger, transition, style, animate, state } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HabilidadeService } from './habilidade.service'
@@ -9,7 +9,14 @@ import { Habilidade } from './habilidade.model';
 
 @Component({
   selector: 'app-habilidade',
-  templateUrl: './habilidade.component.html'
+  templateUrl: './habilidade.component.html',
+   styles: [`.show{
+        opacity: 1 !important;
+      }
+      .alert{
+        opacity: 0;
+        transition: .5s ease-in-out all;
+      }`]
 })
 export class HabilidadeComponent extends SuperComponent implements OnInit {
 
@@ -43,7 +50,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
     if (this.form.get('codigo').value) {
       this.habilidadeService.patchHabilidade(this.form.value)
         .then(result => {
-          this.addSuccessAlert("Habilidade alterada.");
+          this.addSuccessAlert('Habilidade alterada.');
           this.ngOnInit();
         }).catch(error => {
           this.addErrorAlert(error);
@@ -52,7 +59,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
       console.log('postHabilidade');
       this.habilidadeService.postHabilidade(this.form.value)
         .then(result => {
-          this.addSuccessAlert("Nova habilidade salva.");
+          this.addSuccessAlert('Nova habilidade salva.');
           this.ngOnInit();
         }).catch(error => {
           this.addErrorAlert(error);
@@ -68,7 +75,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   deletar(codigoHabilidade: string) {
     this.habilidadeService.deleteHabilidade(codigoHabilidade)
       .then(result => {
-        this.addSuccessAlert("Habilidade excluída.");
+        this.addSuccessAlert('Habilidade excluída.');
         this.reload();
       });
   }
