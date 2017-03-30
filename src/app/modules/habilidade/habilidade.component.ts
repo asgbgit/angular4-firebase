@@ -41,7 +41,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
     });
   }
 
-  public reload() {
+  private reload() {
     this.habilidadeService.getHabilidades().then(lista => { this.habilidades = lista; });
   }
 

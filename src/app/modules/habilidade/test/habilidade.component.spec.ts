@@ -47,56 +47,73 @@ fdescribe('HabilidadeComponent', () => {
 
   it('should have habilidade value', () => {
     const habilidade: Habilidade = { codigo: null, nome: 'Força' };
-    fixture.componentInstance.form.patchValue(habilidade);
+    component.form.patchValue(habilidade);
     fixture.detectChanges();
 
-    const codigoHabilidade: string = fixture.componentInstance.form.get('codigo').value;
-    const nomeHabilidade: string = fixture.componentInstance.form.get('nome').value;
+    const codigoHabilidade: string = component.form.get('codigo').value;
+    const nomeHabilidade: string = component.form.get('nome').value;
     expect(codigoHabilidade).toBeNull('should be null');
     expect(nomeHabilidade).toEqual('Força', 'should be equals "Força"');
   });
 
   it('button salvar should be disabled', () => {
     const habilidade: Habilidade = { codigo: null, nome: null };
-    fixture.componentInstance.form.patchValue(habilidade);
+    component.form.patchValue(habilidade);
     fixture.detectChanges();
 
-    const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSalvar')).nativeElement;
+    const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSave')).nativeElement;
     expect(salvar.disabled).toBeTruthy('should be disabled because form is invalid');
 
   });
 
   it('should save a new habilidade', (done) => {
     const habilidade: Habilidade = { codigo: null, nome: 'Força' };
-    fixture.componentInstance.form.patchValue(habilidade);
+    component.form.patchValue(habilidade);
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSalvar')).nativeElement;
-      salvar.click();
-      fixture.detectChanges();
+      const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSave')).nativeElement;
+      expect(salvar).toBeDefined();
+      expect(salvar.disabled).toBeFalsy();
 
-      fixture.whenStable().then(() => {
-        expect(habilidadeService.postHabilidade).toHaveBeenCalled();
-        done();
-      });
+      salvar.click();
+
+      expect(habilidadeService.postHabilidade).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      done();
     });
   });
 
   it('should patch habilidade', (done) => {
     const habilidade: Habilidade = { codigo: '1', nome: 'Força' };
-    fixture.componentInstance.form.patchValue(habilidade);
+    component.form.patchValue(habilidade);
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSalvar')).nativeElement;
-      salvar.click();
-      fixture.detectChanges();
+      const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSave')).nativeElement;
+      expect(salvar).toBeDefined();
+      expect(salvar.disabled).toBeFalsy();
 
-      fixture.whenStable().then(() => {
-        expect(habilidadeService.patchHabilidade).toHaveBeenCalled();
-        done();
-      });
+      salvar.click();
+
+      expect(habilidadeService.patchHabilidade).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('should delete habilidade', (done) => {
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const deletar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnDelete')).nativeElement;
+      expect(deletar).toBeDefined();
+
+      deletar.click();
+
+      expect(habilidadeService.deleteHabilidade).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      done();
     });
   });
 
