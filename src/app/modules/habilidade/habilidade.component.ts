@@ -46,7 +46,6 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   }
 
   salvar() {
-    console.log('salvar');
     if (this.form.get('codigo').value) {
       this.habilidadeService.patchHabilidade(this.form.value)
         .then(result => {
@@ -56,7 +55,6 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
           this.addErrorAlert(error);
         });
     } else {
-      console.log('postHabilidade');
       this.habilidadeService.postHabilidade(this.form.value)
         .then(result => {
           this.addSuccessAlert('Nova habilidade salva.');

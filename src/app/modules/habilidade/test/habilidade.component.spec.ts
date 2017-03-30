@@ -19,11 +19,12 @@ fdescribe('HabilidadeComponent', () => {
   beforeEach(async(() => {
 
     habilidadeService = jasmine.createSpyObj(
-      'habilidadeService', ['postHabilidade', 'getHabilidades', 'patchHabilidade']);
+      'habilidadeService', ['postHabilidade', 'getHabilidades', 'patchHabilidade', 'deleteHabilidade']);
 
-    habilidadeService.getHabilidades.and.callFake(() => Promise.resolve([{codigo: '1', nome: 'Força'}]));
+    habilidadeService.getHabilidades.and.callFake(() => Promise.resolve([{ codigo: '1', nome: 'Força' }]));
     habilidadeService.postHabilidade.and.callFake(() => Promise.resolve({}));
     habilidadeService.patchHabilidade.and.callFake(() => Promise.resolve({}));
+    habilidadeService.deleteHabilidade.and.callFake(() => Promise.resolve({}));
 
     TestBed.configureTestingModule({
       imports: [HabilidadeModule, HttpModule, AppRoutingModule],
@@ -106,6 +107,27 @@ fdescribe('HabilidadeComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.habilidades.length).toBe(1);
+      done();
+    });
+  });
+
+  it('deve haver 2 itens na lista <table>', (done) => {
+    const lista: HTMLTableElement = fixture.debugElement.query(By.css('table#lista')).nativeElement;
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(lista.rows.length).toBe(2, 'deve haver pelos menos 2 linhas'); //incluindo a linha do header
+      done();
+    });
+  });
+
+  it('should show edit and delete buttons', (done) => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const editButton: HTMLButtonElement = fixture.debugElement.query(By.css('#btnEdit')).nativeElement;
+      const deleteButton: HTMLButtonElement = fixture.debugElement.query(By.css('#btnDelete')).nativeElement;
+      expect(editButton).toBeDefined('edit button should be defined');
+      expect(deleteButton).toBeDefined('delete button should be defined');
       done();
     });
   });

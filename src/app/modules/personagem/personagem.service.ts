@@ -19,8 +19,6 @@ export class PersonagemService {
   }
 
   postPersonagem(personagem: Personagem) {
-
-    console.log('person', personagem);
     return this.http.post(`${this.baseUrl}/personagem.json`, personagem)
       .toPromise()
       .then(response => response);
