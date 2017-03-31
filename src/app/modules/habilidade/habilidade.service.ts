@@ -1,8 +1,7 @@
 import { Habilidade } from './habilidade.model';
 import { Injectable } from '@angular/core';
-import { Http, HttpModule, JsonpModule } from '@angular/http';
-import 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
+import { Http, Response } from '@angular/http';
+import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class HabilidadeService {
@@ -11,27 +10,29 @@ export class HabilidadeService {
 
   constructor(private http: Http) { }
 
-  getHabilidades() {
+  getHabilidades(): Observable<Habilidade[]> {
     return this.http.get(`${this.baseUrl}/habilidade.json`)
-      .toPromise()
-      .then(response => this.convert(response.json()));
+      .map((res: Response) => this.convert(res.json()))
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  postHabilidade(habilidade: Habilidade) {
+  postHabilidade(habilidade: Habilidade): Observable<Habilidade> {
     return this.http.post(`${this.baseUrl}/habilidade.json`, habilidade)
-      .toPromise()
-      .then(response => this.convert(response.json()));
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  patchHabilidade(habilidade: Habilidade) {
+  patchHabilidade(habilidade: Habilidade): Observable<Habilidade> {
     const codigo = habilidade.codigo;
     return this.http.patch(`${this.baseUrl}/habilidade/${codigo}.json`, habilidade)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  deleteHabilidade(codigoHabilidade: string) {
+  deleteHabilidade(codigoHabilidade: string): Observable<Habilidade> {
     return this.http.delete(`${this.baseUrl}/habilidade/${codigoHabilidade}.json`)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   private convert(parsedResponse: any) {

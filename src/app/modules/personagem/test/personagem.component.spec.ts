@@ -1,6 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
+import { Observable } from 'rxjs/Rx';
 
 import { PersonagemComponent } from './../personagem.component';
 import { PersonagemService } from './../personagem.service';
@@ -20,16 +21,15 @@ describe('PersonagemComponent', () => {
   beforeEach(async(() => {
 
     habilidadeService = jasmine.createSpyObj('habilidadeService', ['getHabilidades']);
-    habilidadeService.getHabilidades.and.callFake(() => Promise.resolve([{ codigo: '1', nome: 'Voar' }, { codigo: '2', nome: 'Força' }]));
+    habilidadeService.getHabilidades.and.callFake(() => Observable.of([{ codigo: '1', nome: 'Voar' }, { codigo: '2', nome: 'Força' }]));
     
     personagemService = jasmine.createSpyObj(
       'personagemService', ['postPersonagem', 'getPersonagens', 'patchPersonagem', 'deletePersonagem']);
 
-    personagemService.getPersonagens.and.callFake(() => Promise.resolve([personagens]
-    ));
-    personagemService.postPersonagem.and.callFake(() => Promise.resolve({}));
-    personagemService.patchPersonagem.and.callFake(() => Promise.resolve({}));
-    personagemService.deletePersonagem.and.callFake(() => Promise.resolve({}));
+    personagemService.getPersonagens.and.callFake(() => Observable.of([personagens]));
+    personagemService.postPersonagem.and.callFake(() => Observable.of({}));
+    personagemService.patchPersonagem.and.callFake(() => Observable.of({}));
+    personagemService.deletePersonagem.and.callFake(() => Observable.of({}));
 
 
     TestBed.configureTestingModule({
@@ -87,7 +87,7 @@ describe('PersonagemComponent', () => {
       salvar.click();
 
       expect(personagemService.postPersonagem).toHaveBeenCalledTimes(1);
-      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(1);
+      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(2);
       done();
     });
   });
@@ -106,7 +106,7 @@ describe('PersonagemComponent', () => {
       salvar.click();
 
       expect(personagemService.patchPersonagem).toHaveBeenCalledTimes(1);
-      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(1);
+      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(2);
       done();
     });
   });
@@ -121,7 +121,7 @@ describe('PersonagemComponent', () => {
       deletar.click();
 
       expect(personagemService.deletePersonagem).toHaveBeenCalledTimes(1);
-      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(1);
+      expect(personagemService.getPersonagens).toHaveBeenCalledTimes(2);
       done();
     });
   });

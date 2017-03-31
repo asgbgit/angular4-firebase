@@ -35,24 +35,25 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   }
 
   private reload() {
-    this.habilidadeService.getHabilidades().then(lista => { this.habilidades = lista; });
+    this.habilidadeService.getHabilidades()
+      .subscribe(lista => this.habilidades = lista);
   }
 
   salvar() {
     if (this.form.get('codigo').value) {
       this.habilidadeService.patchHabilidade(this.form.value)
-        .then(result => {
+        .subscribe(result => {
           this.addSuccessAlert('Habilidade alterada.');
           this.ngOnInit();
-        }).catch(error => {
+        }, error => {
           this.addErrorAlert(error);
         });
     } else {
       this.habilidadeService.postHabilidade(this.form.value)
-        .then(result => {
+        .subscribe(result => {
           this.addSuccessAlert('Nova habilidade salva.');
           this.ngOnInit();
-        }).catch(error => {
+        }, error => {
           this.addErrorAlert(error);
         });
     }
@@ -65,7 +66,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
 
   deletar(codigoHabilidade: string) {
     this.habilidadeService.deleteHabilidade(codigoHabilidade)
-      .then(result => {
+      .subscribe(result => {
         this.addSuccessAlert('Habilidade excluída.');
         this.reload();
       });

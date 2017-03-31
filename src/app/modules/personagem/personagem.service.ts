@@ -1,8 +1,7 @@
 import { Personagem } from './personagem.model';
 import { Injectable } from '@angular/core';
-import { Http, HttpModule, JsonpModule } from '@angular/http';
-import 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
+import { Http, Response } from '@angular/http';
+import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class PersonagemService {
@@ -11,28 +10,30 @@ export class PersonagemService {
 
   constructor(private http: Http) { }
 
-  getPersonagens() {
+  getPersonagens(): Observable<Personagem[]> {
     return this.http.get(`${this.baseUrl}/personagem.json`)
-      .toPromise()
-      .then(response => this.convert(response.json()));
+      .map((res: Response) => this.convert(res.json()))
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  postPersonagem(personagem: Personagem) {
+  postPersonagem(personagem: Personagem): Observable<Personagem> {
     return this.http.post(`${this.baseUrl}/personagem.json`, personagem)
-      .toPromise()
-      .then(response => response);
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  patchPersonagem(personagem: Personagem) {
+  patchPersonagem(personagem: Personagem): Observable<Personagem> {
     const codigo = personagem.codigo;
     delete personagem.codigo;
     return this.http.patch(`${this.baseUrl}/personagem/${codigo}.json`, personagem)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  deletePersonagem(codigoPersonagem: string) {
+  deletePersonagem(codigoPersonagem: string): Observable<Personagem> {
     return this.http.delete(`${this.baseUrl}/personagem/${codigoPersonagem}.json`)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
 

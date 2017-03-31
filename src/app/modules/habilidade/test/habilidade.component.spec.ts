@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule, Http } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
+import { Observable } from 'rxjs/Rx';
 
 import { Habilidade } from './../habilidade.model';
 import { HabilidadeService } from './../habilidade.service';
@@ -20,10 +21,10 @@ describe('HabilidadeComponent', () => {
     habilidadeService = jasmine.createSpyObj(
       'habilidadeService', ['postHabilidade', 'getHabilidades', 'patchHabilidade', 'deleteHabilidade']);
 
-    habilidadeService.getHabilidades.and.callFake(() => Promise.resolve([{ codigo: '1', nome: 'Força' }]));
-    habilidadeService.postHabilidade.and.callFake(() => Promise.resolve({}));
-    habilidadeService.patchHabilidade.and.callFake(() => Promise.resolve({}));
-    habilidadeService.deleteHabilidade.and.callFake(() => Promise.resolve({}));
+    habilidadeService.getHabilidades.and.callFake(() => Observable.of([{ codigo: '1', nome: 'Força' }]));
+    habilidadeService.postHabilidade.and.callFake(() => Observable.of({}));
+    habilidadeService.patchHabilidade.and.callFake(() => Observable.of({}));
+    habilidadeService.deleteHabilidade.and.callFake(() => Observable.of({}));
 
     TestBed.configureTestingModule({
       imports: [HabilidadeModule, HttpModule, AppRoutingModule],
@@ -74,7 +75,7 @@ describe('HabilidadeComponent', () => {
       salvar.click();
 
       expect(habilidadeService.postHabilidade).toHaveBeenCalledTimes(1);
-      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(2);
       done();
     });
   });
@@ -92,7 +93,7 @@ describe('HabilidadeComponent', () => {
       salvar.click();
 
       expect(habilidadeService.patchHabilidade).toHaveBeenCalledTimes(1);
-      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(2);
       done();
     });
   });
@@ -107,7 +108,7 @@ describe('HabilidadeComponent', () => {
       deletar.click();
 
       expect(habilidadeService.deleteHabilidade).toHaveBeenCalledTimes(1);
-      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(2);
       done();
     });
   });
