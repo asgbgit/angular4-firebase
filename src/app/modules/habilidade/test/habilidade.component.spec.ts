@@ -1,17 +1,16 @@
-import { Observable } from 'rxjs/Rx';
 import { By } from '@angular/platform-browser';
 import { FormBuilder } from '@angular/forms';
-import { Habilidade } from './../habilidade.model';
-import { HabilidadeService } from './../habilidade.service';
-import { AppRoutingModule } from './../../../app.routing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule, Http } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 
+import { Habilidade } from './../habilidade.model';
+import { HabilidadeService } from './../habilidade.service';
+import { AppRoutingModule } from './../../../app.routing';
 import { HabilidadeModule } from './../habilidade.module';
 import { HabilidadeComponent } from './../habilidade.component';
 
-fdescribe('HabilidadeComponent', () => {
+describe('HabilidadeComponent', () => {
   let component: HabilidadeComponent;
   let fixture: ComponentFixture<HabilidadeComponent>;
   let habilidadeService: any;
@@ -57,13 +56,9 @@ fdescribe('HabilidadeComponent', () => {
   });
 
   it('button salvar should be disabled', () => {
-    const habilidade: Habilidade = { codigo: null, nome: null };
-    component.form.patchValue(habilidade);
-    fixture.detectChanges();
-
     const salvar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnSave')).nativeElement;
+    expect(component.form.invalid).toBeTruthy('should be invalid');
     expect(salvar.disabled).toBeTruthy('should be disabled because form is invalid');
-
   });
 
   it('should save a new habilidade', (done) => {
@@ -113,6 +108,20 @@ fdescribe('HabilidadeComponent', () => {
 
       expect(habilidadeService.deleteHabilidade).toHaveBeenCalledTimes(1);
       expect(habilidadeService.getHabilidades).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('should edit personagem', (done) => {
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const editar: HTMLButtonElement = fixture.debugElement.query(By.css('#btnEdit')).nativeElement;
+      expect(editar).toBeDefined();
+
+      editar.click();
+
+      expect(component.form.value).toEqual({ codigo: '1', nome: 'Força' });
       done();
     });
   });

@@ -1,7 +1,7 @@
 import { Component, OnInit, trigger, transition, style, animate, state } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { HabilidadeService } from './habilidade.service'
+import { HabilidadeService } from './habilidade.service';
 import { SuperComponent } from './../../common/resource/super-component';
 import { AlertMessage } from './../../common/domain/alert-message.model';
 import { Habilidade } from './habilidade.model';
@@ -9,14 +9,7 @@ import { Habilidade } from './habilidade.model';
 
 @Component({
   selector: 'app-habilidade',
-  templateUrl: './habilidade.component.html',
-   styles: [`.show{
-        opacity: 1 !important;
-      }
-      .alert{
-        opacity: 0;
-        transition: .5s ease-in-out all;
-      }`]
+  templateUrl: './habilidade.component.html'
 })
 export class HabilidadeComponent extends SuperComponent implements OnInit {
 
@@ -61,7 +54,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
           this.ngOnInit();
         }).catch(error => {
           this.addErrorAlert(error);
-        })
+        });
     }
   }
 

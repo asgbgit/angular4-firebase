@@ -3,6 +3,9 @@ export interface Personagem {
   nome: string;
   companhia: string;
   habilidades: [
-    {habilidade: string}
+    {habilidade: {
+      codigo: string,
+      nome: string
+    }}
   ];
 }

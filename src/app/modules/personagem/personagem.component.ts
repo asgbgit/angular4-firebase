@@ -57,7 +57,7 @@ export class PersonagemComponent extends SuperComponent implements OnInit {
   }
 
   private loadHabilidades() {
-    this.habilidadeService.getHabilidades().then(lista => { this.listaHabilidades = lista});
+    this.habilidadeService.getHabilidades().then(lista => { this.listaHabilidades = lista; });
   }
 
   addHabilidade() {

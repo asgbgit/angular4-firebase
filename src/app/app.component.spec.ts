@@ -6,7 +6,7 @@ import { PersonagemService } from './modules/personagem/personagem.service';
 import { HabilidadeService } from './modules/habilidade/habilidade.service';
 import { AppModule } from './app.module';
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
 
   let fixture: ComponentFixture<AppComponent>;
 

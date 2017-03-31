@@ -1,7 +1,6 @@
 import { Personagem } from './personagem.model';
 import { Injectable } from '@angular/core';
 import { Http, HttpModule, JsonpModule } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
