@@ -5,9 +5,9 @@ export class SuperComponent {
   alert: AlertMessage = new AlertMessage();
 
     fecharAlert() {
-      setTimeout(() => { 
-          this.alert.mensagem = null; 
-      }, 5000);
+      setTimeout(() => {
+          this.alert.mensagem = null;
+      }, 4000);
     }
 
     addSuccessAlert(mensagem: string) {

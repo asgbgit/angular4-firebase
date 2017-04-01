@@ -1,14 +1,15 @@
-import { Habilidade } from './habilidade.model';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
+
+import { Habilidade } from './habilidade.model';
 
 @Injectable()
 export class HabilidadeService {
 
   private baseUrl = 'https://heroes-5b0f3.firebaseio.com';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   getHabilidades(): Observable<Habilidade[]> {
     return this.http.get(`${this.baseUrl}/habilidade.json`)

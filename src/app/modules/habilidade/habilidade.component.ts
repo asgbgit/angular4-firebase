@@ -6,7 +6,6 @@ import { SuperComponent } from './../../common/resource/super-component';
 import { AlertMessage } from './../../common/domain/alert-message.model';
 import { Habilidade } from './habilidade.model';
 
-
 @Component({
   selector: 'app-habilidade',
   templateUrl: './habilidade.component.html'

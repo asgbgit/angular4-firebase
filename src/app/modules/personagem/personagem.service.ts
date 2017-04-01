@@ -1,14 +1,15 @@
-import { Personagem } from './personagem.model';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
+
+import { Personagem } from './personagem.model';
 
 @Injectable()
 export class PersonagemService {
 
   private baseUrl = 'https://heroes-5b0f3.firebaseio.com';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   getPersonagens(): Observable<Personagem[]> {
     return this.http.get(`${this.baseUrl}/personagem.json`)
@@ -36,7 +37,6 @@ export class PersonagemService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-
   private convert(parsedResponse: any) {
     if (parsedResponse) {
       return Object.keys(parsedResponse)
@@ -48,4 +48,6 @@ export class PersonagemService {
         }));
     }
     return [];
-  }}
+  }
+
+}

@@ -14,10 +14,10 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     loginService = jasmine.createSpyObj('loginService', ['doLogin']);
-    loginService.doLogin.and.callFake(() => null);
+    loginService.doLogin.and.callFake(() => {});
 
     TestBed.configureTestingModule({
-      imports: [LoginModule, RouterModule],
+      imports: [LoginModule],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         { provide: LoginService, useValue: loginService }
