@@ -1,26 +1,14 @@
 import { Component, OnInit, trigger, transition, style, animate, state } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { HabilidadeService } from './habilidade.service'
+import { HabilidadeService } from './habilidade.service';
 import { SuperComponent } from './../../common/resource/super-component';
 import { AlertMessage } from './../../common/domain/alert-message.model';
 import { Habilidade } from './habilidade.model';
 
-
 @Component({
   selector: 'app-habilidade',
-  templateUrl: './habilidade.component.html',
-   styles: [`
-  .show{
-    opacity: 1 !important;
-  }
-  .alert{
-    opacity: 0;
-    transition: .5s ease-in-out all;
-  } 
-  `],
-
-  providers: [HabilidadeService]
+  templateUrl: './habilidade.component.html'
 })
 export class HabilidadeComponent extends SuperComponent implements OnInit {
 
@@ -29,7 +17,7 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   habilidades: Habilidade[];
 
   constructor(private formBuilder: FormBuilder,
-              private service: HabilidadeService) {
+              private habilidadeService: HabilidadeService) {
       super();
   }
 
@@ -46,27 +34,27 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   }
 
   private reload() {
-    this.service.getHabilidades().then(lista => { this.habilidades = lista; });
+    this.habilidadeService.getHabilidades()
+      .subscribe(lista => this.habilidades = lista);
   }
 
   salvar() {
     if (this.form.get('codigo').value) {
-      this.service.patchHabilidade(this.form.value)
-        .then(result => {
-          this.addSuccessAlert("Habilidade alterada.");
+      this.habilidadeService.patchHabilidade(this.form.value)
+        .subscribe(result => {
+          this.addSuccessAlert('Habilidade alterada.');
           this.ngOnInit();
-        }).catch(error => {
+        }, error => {
           this.addErrorAlert(error);
-        })
-    }
-    else {
-      this.service.postHabilidade(this.form.value)
-        .then(result => {
-          this.addSuccessAlert("Nova habilidade salva.");
-          this.ngOnInit();          
-        }).catch(error => {
+        });
+    } else {
+      this.habilidadeService.postHabilidade(this.form.value)
+        .subscribe(result => {
+          this.addSuccessAlert('Nova habilidade salva.');
+          this.ngOnInit();
+        }, error => {
           this.addErrorAlert(error);
-        })
+        });
     }
   }
 
@@ -76,9 +64,9 @@ export class HabilidadeComponent extends SuperComponent implements OnInit {
   }
 
   deletar(codigoHabilidade: string) {
-    this.service.deleteHabilidade(codigoHabilidade)
-      .then(result => {
-        this.addSuccessAlert("Habilidade excluída.");
+    this.habilidadeService.deleteHabilidade(codigoHabilidade)
+      .subscribe(result => {
+        this.addSuccessAlert('Habilidade excluída.');
         this.reload();
       });
   }

@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { User } from './user';
+import { User } from './user.model';
 
 declare var window: any;
 
@@ -12,8 +12,7 @@ export class LoginService {
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   doLogin(user: User) {
-    if (user.login === 'admin' &&
-      user.password === 'admin') {
+    if (user.login === 'admin' && user.password === 'admin') {
 
       user.token = Math.random.toString();
 
@@ -26,6 +25,4 @@ export class LoginService {
       this.router.navigate(['/login']);
     }
   }
-
-
 }

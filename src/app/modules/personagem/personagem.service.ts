@@ -1,43 +1,41 @@
-import { Personagem } from './personagem.model';
 import { Injectable } from '@angular/core';
-import { Http, HttpModule, JsonpModule } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
+
+import { Personagem } from './personagem.model';
 
 @Injectable()
 export class PersonagemService {
 
   private baseUrl = 'https://heroes-5b0f3.firebaseio.com';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
-  getPersonagens() {
+  getPersonagens(): Observable<Personagem[]> {
     return this.http.get(`${this.baseUrl}/personagem.json`)
-      .toPromise()
-      .then(response => this.convert(response.json()));
+      .map((res: Response) => this.convert(res.json()))
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  postPersonagem(personagem: Personagem) {
-
-    console.log('person', personagem);
+  postPersonagem(personagem: Personagem): Observable<Personagem> {
     return this.http.post(`${this.baseUrl}/personagem.json`, personagem)
-      .toPromise()
-      .then(response => response);
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  patchPersonagem(personagem: Personagem) {
+  patchPersonagem(personagem: Personagem): Observable<Personagem> {
     const codigo = personagem.codigo;
     delete personagem.codigo;
     return this.http.patch(`${this.baseUrl}/personagem/${codigo}.json`, personagem)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  deletePersonagem(codigoPersonagem: string) {
+  deletePersonagem(codigoPersonagem: string): Observable<Personagem> {
     return this.http.delete(`${this.baseUrl}/personagem/${codigoPersonagem}.json`)
-      .toPromise();
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
-
 
   private convert(parsedResponse: any) {
     if (parsedResponse) {
@@ -50,4 +48,6 @@ export class PersonagemService {
         }));
     }
     return [];
-  }}
+  }
+
+}

@@ -10,8 +10,7 @@ import { Habilidade } from './../habilidade/habilidade.model';
 
 @Component({
   selector: 'app-personagem',
-  templateUrl: './personagem.component.html',
-  providers: []
+  templateUrl: './personagem.component.html'
 })
 export class PersonagemComponent extends SuperComponent implements OnInit {
 
@@ -54,11 +53,11 @@ export class PersonagemComponent extends SuperComponent implements OnInit {
   }
 
   private reload() {
-    this.personagemService.getPersonagens().then(lista => { this.personagens = lista; });
+    this.personagemService.getPersonagens().subscribe(lista => { this.personagens = lista; });
   }
 
   private loadHabilidades() {
-    this.habilidadeService.getHabilidades().then(lista => { this.listaHabilidades = lista});
+    this.habilidadeService.getHabilidades().subscribe(lista => { this.listaHabilidades = lista; });
   }
 
   addHabilidade() {
@@ -94,7 +93,7 @@ export class PersonagemComponent extends SuperComponent implements OnInit {
 
   deletar(codigoPersonagem: string) {
     this.personagemService.deletePersonagem(codigoPersonagem)
-      .then(result => {
+      .subscribe(result => {
         this.addSuccessAlert('Personagem excluído.');
         this.reload();
       });
@@ -103,18 +102,18 @@ export class PersonagemComponent extends SuperComponent implements OnInit {
   salvar() {
     if (this.form.get('codigo').value) {
       this.personagemService.patchPersonagem(this.form.value)
-        .then(result => {
+        .subscribe(result => {
           this.addSuccessAlert('Personagem alterado.');
           this.ngOnInit();
-        }).catch(error => {
+        }, error => {
           this.addErrorAlert(error);
         });
     } else {
       this.personagemService.postPersonagem(this.form.value)
-        .then(result => {
+        .subscribe(result => {
           this.addSuccessAlert('Novo personagem salvo.');
           this.ngOnInit();
-        }).catch(error => {
+        }, error => {
           this.addErrorAlert(error);
         });
     }

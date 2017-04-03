@@ -27,7 +27,7 @@
 
               <div class="input-group" [formGroupName]="i" style="margin-bottom: 5px">
 
-                <select [compareWith]="compare" formControlName="habilidade" name="habilidade">
+                <select id="habilidade" [compareWith]="compare" formControlName="habilidade" name="habilidade">
                     <option *ngFor="let hab of listaHabilidades" [ngValue]="hab">{{hab.nome}}</option>
                 </select>
 
@@ -50,7 +50,7 @@
 
         <br/>
 
-        <button type="submit" class="btn btn-success pull-right" [disabled]="!form.valid">
+        <button id="btnSave" type="submit" class="btn btn-success pull-right" [disabled]="!form.valid">
           <i class="fa fa-save" aria-hidden="true"></i>
           Salvar
         </button>
@@ -66,7 +66,7 @@
     Listagem de Personagens
   </div>
   <div class="card-block">
-    <table class="table table-striped">
+    <table id="lista" class="table table-striped">
       <tr>
         <th>Ações</th>
         <th>Nome</th>
@@ -74,12 +74,12 @@
         <th>Habilidades</th>
       </tr>
       <tr *ngFor="let personagem of personagens">
-        <td style="width: 10%;">
-          <button (click)="editar(personagem)" class="btn btn-primary">
+        <td style="width: 15%;">
+          <button id="btnEdit" (click)="editar(personagem)" class="btn btn-primary">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </button>
 
-          <button (click)="deletar(personagem.codigo)" class="btn btn-danger">
+          <button id="btnDelete" (click)="deletar(personagem.codigo)" class="btn btn-danger">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>
         </td>
